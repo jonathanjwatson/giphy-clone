@@ -1,5 +1,6 @@
 var searchForm = $("#search-form");
 var searchTermEl = $("#search-term");
+var imagesDisplay = $("#images-display");
 
 searchForm.on("submit", function (event) {
   event.preventDefault();
@@ -21,7 +22,16 @@ searchForm.on("submit", function (event) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      console.log(data.data[0].images.fixed_width_small.url);
+
+      imagesDisplay.empty();
+
+      for (var i = 0; i < data.data.length; i++) {
+        var imageEl = $("<img>");
+        imageEl.addClass("col-sm-4");
+        imageEl.attr("src", data.data[i].images.fixed_width_small.url);
+        imagesDisplay.append(imageEl);
+      }
     });
   // convert the response from JSON
   // Start by console logging the data.
